@@ -113,7 +113,7 @@ public class RefasterTemplateProcessor extends TypeAwareProcessor {
         //printedMessages.entrySet().stream().sorted(Map.Entry.comparingByValue())
         //        .forEach(entry -> processingEnv.getMessager().printMessage(Kind.NOTE, entry.toString()));
 
-        // Give other annotation processors a chance to process the same annotations, for dual use of Refaster templates
+        // Give other annotation processors a chance to process the samuel e annotations, for dual use of Refaster templates
         return false;
     }
 
