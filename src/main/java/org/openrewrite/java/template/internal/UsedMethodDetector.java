@@ -44,12 +44,12 @@ public class UsedMethodDetector {
                     return;
                 }
 
-                if (tree instanceof JCIdent && ((JCIdent) tree).sym instanceof Symbol.MethodSymbol) {
-                    imports.add(((Symbol.MethodSymbol) ((JCIdent) tree).sym));
-                } else if (tree instanceof JCFieldAccess && ((JCFieldAccess) tree).sym instanceof Symbol.MethodSymbol) {
-                    imports.add(((Symbol.MethodSymbol) ((JCFieldAccess) tree).sym));
-                } else if (tree instanceof JCTree.JCNewClass && ((JCTree.JCNewClass) tree).constructor instanceof Symbol.MethodSymbol) {
-                    imports.add(((Symbol.MethodSymbol) ((JCTree.JCNewClass) tree).constructor));
+                if (tree instanceof JCIdent ident && ident.sym instanceof Symbol.MethodSymbol symbol) {
+                    imports.add(((Symbol.MethodSymbol) ident.sym));
+                } else if (tree instanceof JCFieldAccess access && access.sym instanceof Symbol.MethodSymbol symbol) {
+                    imports.add(((Symbol.MethodSymbol) access.sym));
+                } else if (tree instanceof JCTree.JCNewClass class1 && class1.constructor instanceof Symbol.MethodSymbol symbol) {
+                    imports.add(((Symbol.MethodSymbol) class1.constructor));
                 }
 
                 super.scan(tree);

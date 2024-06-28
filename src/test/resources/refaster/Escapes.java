@@ -24,7 +24,7 @@ public class Escapes {
     public static class ConstantsFormat {
         @BeforeTemplate
         String before(String value) {
-            return String.format("\"%s\"", Convert.quote(value));
+            return "\"%s\"".formatted(Convert.quote(value));
         }
 
         @AfterTemplate

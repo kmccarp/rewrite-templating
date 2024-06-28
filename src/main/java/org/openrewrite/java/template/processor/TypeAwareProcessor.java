@@ -80,8 +80,8 @@ public abstract class TypeAwareProcessor extends AbstractProcessor {
      */
     public JavacProcessingEnvironment getJavacProcessingEnvironment(Object procEnv) {
         addOpens();
-        if (procEnv instanceof JavacProcessingEnvironment) {
-            return (JavacProcessingEnvironment) procEnv;
+        if (procEnv instanceof JavacProcessingEnvironment environment) {
+            return environment;
         }
 
         // try to find a "delegate" field in the object, and use this to try to obtain a JavacProcessingEnvironment
@@ -100,9 +100,11 @@ public abstract class TypeAwareProcessor extends AbstractProcessor {
             // delegate field was not found, try on superclass
         }
 
-        processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "Can't get the delegate of the gradle " +
-                                                                          "IncrementalProcessingEnvironment. " +
-                                                                          "OpenRewrite's template processor won't work.");
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, """
+                                                                          Can't get the delegate of the gradle \
+                                                                          IncrementalProcessingEnvironment. \
+                                                                          OpenRewrite's template processor won't work.\
+                                                                          """);
         return null;
     }
 

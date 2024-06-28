@@ -74,8 +74,8 @@ public class JavacTreeMaker {
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof SchroedingerType) {
-                Object other = ((SchroedingerType) obj).value;
+            if (obj instanceof SchroedingerType type) {
+                Object other = type.value;
                 return Objects.equals(value, other);
             }
             return false;

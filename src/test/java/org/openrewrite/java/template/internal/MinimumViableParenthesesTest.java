@@ -37,16 +37,20 @@ class MinimumViableParenthesesTest implements RewriteTest {
     void minimumViable() {
         rewriteRun(
           java(
-            "class Test {\n" +
-            "    int n = 1 + 2;\n" +
-            "    int o = 1 + 2 + 3;\n" +
-            "    int p = -(1 + 2);\n" +
-            "}",
-            "class Test {\n" +
-            "    int n = 1 + 2;\n" +
-            "    int o = (1 + 2) + 3;\n" +
-            "    int p = -(1 + 2);\n" +
-            "}"
+            """
+            class Test {
+                int n = 1 + 2;
+                int o = 1 + 2 + 3;
+                int p = -(1 + 2);
+            }\
+            """,
+            """
+            class Test {
+                int n = 1 + 2;
+                int o = (1 + 2) + 3;
+                int p = -(1 + 2);
+            }\
+            """
           )
         );
     }

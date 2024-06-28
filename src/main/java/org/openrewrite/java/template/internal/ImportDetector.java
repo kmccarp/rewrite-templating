@@ -82,13 +82,13 @@ public class ImportDetector {
             }
 
             JCTree maybeFieldAccess = tree;
-            if (maybeFieldAccess instanceof JCFieldAccess &&
-                ((JCFieldAccess) maybeFieldAccess).sym instanceof Symbol.ClassSymbol &&
-                Character.isUpperCase(((JCFieldAccess) maybeFieldAccess).getIdentifier().toString().charAt(0))) {
+            if (maybeFieldAccess instanceof JCFieldAccess access &&
+                access.sym instanceof Symbol.ClassSymbol &&
+                Character.isUpperCase(access.getIdentifier().toString().charAt(0))) {
                 while (maybeFieldAccess instanceof JCFieldAccess) {
-                    maybeFieldAccess = ((JCFieldAccess) maybeFieldAccess).getExpression();
-                    if (maybeFieldAccess instanceof JCIdent &&
-                        Character.isUpperCase(((JCIdent) maybeFieldAccess).getName().toString().charAt(0))) {
+                    maybeFieldAccess = access.getExpression();
+                    if (maybeFieldAccess instanceof JCIdent ident &&
+                        Character.isUpperCase(ident.getName().toString().charAt(0))) {
                         // this might be a fully qualified type name, so we don't want to add an import for it
                         // and returning will skip the nested identifier which represents just the class simple name
                         return;
@@ -101,36 +101,36 @@ public class ImportDetector {
                 return;
             }
 
-            if (tree instanceof JCIdent) {
+            if (tree instanceof JCIdent ident) {
                 if (tree.type == null || !(tree.type.tsym instanceof Symbol.ClassSymbol)) {
                     return;
                 }
-                if (((JCIdent) tree).sym.getKind() == ElementKind.CLASS || ((JCIdent) tree).sym.getKind() == ElementKind.INTERFACE) {
+                if (ident.sym.getKind() == ElementKind.CLASS || ident.sym.getKind() == ElementKind.INTERFACE) {
                     imports.add(tree.type.tsym);
-                } else if (((JCIdent) tree).sym.getKind() == ElementKind.FIELD) {
-                    imports.add(((JCIdent) tree).sym);
-                } else if (((JCIdent) tree).sym.getKind() == ElementKind.METHOD) {
-                    imports.add(((JCIdent) tree).sym);
-                } else if (((JCIdent) tree).sym.getKind() == ElementKind.ENUM_CONSTANT) {
-                    imports.add(((JCIdent) tree).sym);
+                } else if (ident.sym.getKind() == ElementKind.FIELD) {
+                    imports.add(ident.sym);
+                } else if (ident.sym.getKind() == ElementKind.METHOD) {
+                    imports.add(ident.sym);
+                } else if (ident.sym.getKind() == ElementKind.ENUM_CONSTANT) {
+                    imports.add(ident.sym);
                 }
-            } else if (tree instanceof JCFieldAccess && ((JCFieldAccess) tree).sym instanceof Symbol.VarSymbol
-                       && ((JCFieldAccess) tree).selected instanceof JCIdent
-                       && ((JCIdent) ((JCFieldAccess) tree).selected).sym instanceof Symbol.ClassSymbol) {
-                imports.add(((JCIdent) ((JCFieldAccess) tree).selected).sym);
-            } else if (tree instanceof JCFieldAccess && ((JCFieldAccess) tree).sym instanceof Symbol.MethodSymbol
-                       && ((JCFieldAccess) tree).selected instanceof JCIdent
-                       && ((JCIdent) ((JCFieldAccess) tree).selected).sym instanceof Symbol.ClassSymbol) {
-                imports.add(((JCIdent) ((JCFieldAccess) tree).selected).sym);
-            } else if (tree instanceof JCFieldAccess && ((JCFieldAccess) tree).sym instanceof Symbol.ClassSymbol
-                       && ((JCFieldAccess) tree).selected instanceof JCIdent
-                       && ((JCIdent) ((JCFieldAccess) tree).selected).sym instanceof Symbol.ClassSymbol
-                       && !(((JCIdent) ((JCFieldAccess) tree).selected).sym.type instanceof Type.ErrorType)) {
-                imports.add(((JCIdent) ((JCFieldAccess) tree).selected).sym);
-            } else if (tree instanceof JCTree.JCFieldAccess &&
-                ((JCTree.JCFieldAccess) tree).sym instanceof Symbol.ClassSymbol) {
-                if (tree.toString().equals(((JCTree.JCFieldAccess) tree).sym.toString())) {
-                    imports.add(((JCTree.JCFieldAccess) tree).sym);
+            } else if (tree instanceof JCFieldAccess access && access.sym instanceof Symbol.VarSymbol
+                       && access.selected instanceof JCIdent ident
+                       && ((JCIdent) access.selected).sym instanceof Symbol.ClassSymbol) {
+                imports.add(((JCIdent) access.selected).sym);
+            } else if (tree instanceof JCFieldAccess access && access.sym instanceof Symbol.MethodSymbol
+                       && access.selected instanceof JCIdent ident
+                       && ((JCIdent) access.selected).sym instanceof Symbol.ClassSymbol) {
+                imports.add(((JCIdent) access.selected).sym);
+            } else if (tree instanceof JCFieldAccess access && access.sym instanceof Symbol.ClassSymbol
+                       && access.selected instanceof JCIdent ident
+                       && ((JCIdent) access.selected).sym instanceof Symbol.ClassSymbol
+                       && !(((JCIdent) access.selected).sym.type instanceof Type.ErrorType)) {
+                imports.add(((JCIdent) access.selected).sym);
+            } else if (tree instanceof JCTree.JCFieldAccess access &&
+                access.sym instanceof Symbol.ClassSymbol) {
+                if (tree.toString().equals(access.sym.toString())) {
+                    imports.add(access.sym);
                 }
             }
 

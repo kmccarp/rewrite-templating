@@ -104,7 +104,7 @@ public class TreeMirrorMaker extends TreeCopier<Void> {
     // - https://github.com/projectlombok/lombok/issues/729
     @Override
     public JCTree visitVariable(VariableTree node, Void p) {
-        JCVariableDecl original = node instanceof JCVariableDecl ? (JCVariableDecl) node : null;
+        JCVariableDecl original = node instanceof JCVariableDecl jcvd ? jcvd : null;
         JCVariableDecl copy = (JCVariableDecl) super.visitVariable(node, p);
         if (original == null) {
             return copy;

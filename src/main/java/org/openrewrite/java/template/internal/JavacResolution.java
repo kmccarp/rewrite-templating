@@ -144,8 +144,8 @@ public class JavacResolution {
         }
         if (tree instanceof JCBlock) {
             attr.attribStat(tree, env);
-        } else if (tree instanceof JCMethodDecl) {
-            attr.attribStat(((JCMethodDecl) tree).body, env);
+        } else if (tree instanceof JCMethodDecl decl) {
+            attr.attribStat(decl.body, env);
         } else if (tree instanceof JCVariableDecl) {
             attr.attribStat(tree, env);
         } else {

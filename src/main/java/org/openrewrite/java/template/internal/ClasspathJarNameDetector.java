@@ -51,10 +51,10 @@ public class ClasspathJarNameDetector {
         new TreeScanner() {
             @Override
             public void scan(JCTree tree) {
-                if (tree instanceof JCFieldAccess &&
-                    ((JCFieldAccess) tree).sym instanceof Symbol.ClassSymbol &&
-                    Character.isUpperCase(((JCFieldAccess) tree).getIdentifier().toString().charAt(0))) {
-                    jarNames.add(jarNameFor(((JCFieldAccess) tree).sym));
+                if (tree instanceof JCFieldAccess access &&
+                    access.sym instanceof Symbol.ClassSymbol &&
+                    Character.isUpperCase(access.getIdentifier().toString().charAt(0))) {
+                    jarNames.add(jarNameFor(access.sym));
                 }
                 super.scan(tree);
             }
@@ -65,7 +65,7 @@ public class ClasspathJarNameDetector {
 
 
     private static String jarNameFor(Symbol anImport) {
-        Symbol.ClassSymbol enclClass = anImport instanceof Symbol.ClassSymbol ? (Symbol.ClassSymbol) anImport : anImport.enclClass();
+        Symbol.ClassSymbol enclClass = anImport instanceof Symbol.ClassSymbol cs ? cs : anImport.enclClass();
         while (enclClass.enclClass() != null && enclClass.enclClass() != enclClass) {
             enclClass = enclClass.enclClass();
         }

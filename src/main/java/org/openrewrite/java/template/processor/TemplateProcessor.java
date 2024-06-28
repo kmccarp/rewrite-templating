@@ -69,8 +69,8 @@ public class TemplateProcessor extends TypeAwareProcessor {
             @Override
             public void visitApply(JCTree.JCMethodInvocation tree) {
                 JCTree.JCExpression jcSelect = tree.getMethodSelect();
-                String name = jcSelect instanceof JCTree.JCFieldAccess ?
-                        ((JCTree.JCFieldAccess) jcSelect).name.toString() :
+                String name = jcSelect instanceof JCTree.JCFieldAccess jcfa ?
+                        jcfa.name.toString() :
                         ((JCTree.JCIdent) jcSelect).getName().toString();
 
                 if (("expression".equals(name) || "statement".equals(name)) && tree.getArguments().size() == 3) {
@@ -86,9 +86,9 @@ public class TemplateProcessor extends TypeAwareProcessor {
 
                     JCTree.JCExpression arg2 = tree.getArguments().get(2);
                     if (isOfClassType(resolvedMethod.type, "org.openrewrite.java.JavaTemplate.Builder") &&
-                        (arg2 instanceof JCTree.JCLambda || arg2 instanceof JCTree.JCTypeCast && ((JCTree.JCTypeCast) arg2).getExpression() instanceof JCTree.JCLambda)) {
+                        (arg2 instanceof JCTree.JCLambda || arg2 instanceof JCTree.JCTypeCast cast && cast.getExpression() instanceof JCTree.JCLambda)) {
 
-                        JCTree.JCLambda template = arg2 instanceof JCTree.JCLambda ? (JCTree.JCLambda) arg2 : (JCTree.JCLambda) ((JCTree.JCTypeCast) arg2).getExpression();
+                        JCTree.JCLambda template = arg2 instanceof JCTree.JCLambda jcl ? jcl : (JCTree.JCLambda) ((JCTree.JCTypeCast) arg2).getExpression();
 
                         List<JCTree.JCVariableDecl> parameters;
                         if (template.getParameters().isEmpty()) {
@@ -180,8 +180,8 @@ public class TemplateProcessor extends TypeAwareProcessor {
     }
 
     private boolean isOfClassType(Type type, String fqn) {
-        return type instanceof Type.ClassType && (((Symbol.ClassSymbol) type.tsym)
-                                                          .fullname.contentEquals(fqn) || isOfClassType(((Type.ClassType) type).supertype_field, fqn));
+        return type instanceof Type.ClassType ct && (((Symbol.ClassSymbol) type.tsym)
+                                                          .fullname.contentEquals(fqn) || isOfClassType(ct.supertype_field, fqn));
     }
 
     private Stack<Tree> cursor(JCCompilationUnit cu, Tree t) {
