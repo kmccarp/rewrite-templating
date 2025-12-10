@@ -33,7 +33,7 @@ public class Generics {
 
         @AfterTemplate
         String after(List<String> l) {
-            return l.get(0);
+            return l.getFirst();
         }
     }
 

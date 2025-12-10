@@ -23,7 +23,7 @@ public class Escapes {
     public static class ConstantsFormat {
         @BeforeTemplate
         String before(String value) {
-            return String.format("\"%s\"", Strings.nullToEmpty(value));
+            return "\"%s\"".formatted(Strings.nullToEmpty(value));
         }
 
         @AfterTemplate

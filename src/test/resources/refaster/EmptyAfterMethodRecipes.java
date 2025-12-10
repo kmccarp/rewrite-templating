@@ -16,6 +16,7 @@
 package foo;
 
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Preconditions;
 import org.openrewrite.Recipe;
@@ -94,8 +95,9 @@ public class EmptyAfterMethodRecipes extends Recipe {
         public TreeVisitor<?, ExecutionContext> getVisitor() {
             JavaVisitor<ExecutionContext> javaVisitor = new AbstractRefasterJavaVisitor() {
                 JavaTemplate before;
+
                 @Override
-                public J visitBinary(J.Binary elem, ExecutionContext ctx) {
+                public @Nullable J visitBinary(J.Binary elem, ExecutionContext ctx) {
                     JavaTemplate.Matcher matcher;
                     if (before == null) {
                         before = JavaTemplate.builder("#{s:any(java.lang.String)}.length() == 0").build();
@@ -143,8 +145,9 @@ public class EmptyAfterMethodRecipes extends Recipe {
         public TreeVisitor<?, ExecutionContext> getVisitor() {
             JavaVisitor<ExecutionContext> javaVisitor = new AbstractRefasterJavaVisitor() {
                 JavaTemplate before;
+
                 @Override
-                public J visitMethodInvocation(J.MethodInvocation elem, ExecutionContext ctx) {
+                public @Nullable J visitMethodInvocation(J.MethodInvocation elem, ExecutionContext ctx) {
                     JavaTemplate.Matcher matcher;
                     if (before == null) {
                         before = JavaTemplate.builder("System.out.println(#{s:any(java.lang.String)});").build();

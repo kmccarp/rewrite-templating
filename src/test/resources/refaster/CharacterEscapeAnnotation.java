@@ -21,10 +21,13 @@ import org.openrewrite.java.template.RecipeDescriptor;
 
 @RecipeDescriptor(
         name = "Multiline Annotation\nContains a newline character!",
-        description = "A multiline annotation.\nSupported here too!\n" +
-                      "It also supports escaped quotations: \"I think therefore I am\" - Descartes.\n" +
-                      "And escaped backslashes: C:\\Users\\JohnDoe\\Documents\\\n" +
-                      "And escaped tabs: \"This is a string with a tab character\t\".\n" +
+        description = """
+                      A multiline annotation.
+                      Supported here too!
+                      It also supports escaped quotations: "I think therefore I am" - Descartes.
+                      And escaped backslashes: C:\\Users\\JohnDoe\\Documents\\
+                      And escaped tabs: "This is a string with a tab character	".
+                      """ +
                       "And escaped carriage returns: \"This is a string with a carriage return character\r\".\n" +
                       "And escaped form feeds: \"This is a string with a form feed character\f\".\n" +
                       "And escaped backspace characters: \"This is a string with a backspace character\b\".\n" +
